@@ -1,0 +1,247 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb, geometry, graphicx}
+\usepackage{titlesec}
+% For nicely formatted pseudocode:
+\usepackage{algorithm}      % floating "Algorithm" environment
+\usepackage{algpseudocode}  % modern algorithmic macros: \For, \While, \State, \To, etc.
+\usepackage{float}          % enables the [H] placement specifier
+
+% (Optional) nicer inline comments in pseudocode:
+\algrenewcommand\algorithmiccomment[1]{\hfill\(\triangleright\)~#1}
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{calculative}[theorem]{Calculative}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\titleformat{\section}[block]{\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}[runin]{\bfseries}{}{0pt}{}[.]
+
+\begin{document}
+
+\begin{center}
+\Large\textbf{Lecture 1 - Chpt 1, Chpt 2} \\
+\large Harley Caham Combest \\
+\large Fa2025 CS4413 Lecture Notes – Mk1
+\end{center}
+
+\vspace{1em}
+
+\dotfill
+\section*{Chapter 1: The Role of Algorithms in Computing}
+\dotfill
+
+\subsection*{Historical Context}
+The concept of an \emph{algorithm} is ancient. Euclid’s algorithm (ca. 300 BCE) 
+for the greatest common divisor is one of the earliest known procedures 
+equipped with a formal proof of correctness. Medieval scholars in India and 
+the Islamic world advanced methods for arithmetic and algebra; indeed, 
+the word ``algorithm'' derives from the name of the 9th-century Persian 
+mathematician al-Khwarizmi. 
+
+In the modern era, algorithms govern every aspect of computing---from 
+genome sequencing to cryptography to internet routing. They form the 
+backbone of both theoretical computer science and practical computation.
+
+\subsection*{Definition of Algorithms (1.1)}
+
+\begin{definition}[Algorithm]
+An \textbf{algorithm} is a well-defined computational procedure that takes some 
+value(s) as input and produces some value(s) as output in a finite amount 
+of time.
+\end{definition}
+
+Equivalently, an algorithm is a tool for solving a computational problem:
+\begin{itemize}
+    \item The \emph{problem statement} specifies the desired input-output relation.
+    \item The \emph{algorithm} provides an explicit procedure to realize it.
+\end{itemize}
+
+\begin{definition}[Correctness]
+An algorithm is \textbf{correct} if, for every input instance, it halts in finite time 
+and outputs the correct solution. An algorithm is \textbf{incorrect} if there exists 
+at least one input for which it fails to halt, or halts with an incorrect output.
+\end{definition}
+
+\subsection*{Calculative Example: The Sorting Problem}
+\begin{itemize}
+    \item \textbf{Input:} A sequence of $n$ numbers $\langle a_1, a_2, \dots, a_n \rangle$.
+    \item \textbf{Output:} A permutation $\langle a_{\pi(1)}, a_{\pi(2)}, \dots, a_{\pi(n)} \rangle$ 
+    such that 
+    \[
+        a_{\pi(1)} \leq a_{\pi(2)} \leq \cdots \leq a_{\pi(n)}.
+    \]
+\end{itemize}
+
+\textbf{Example.} Input $\langle 31, 41, 59, 26, 41, 58 \rangle$ yields output 
+$\langle 26, 31, 41, 41, 58, 59 \rangle$.
+
+\subsection*{Algorithms as a Technology (1.2)}
+
+If computers were infinitely fast and memory free, efficiency would not matter. 
+But correctness would still be required. In reality, both time and space are 
+limited, making algorithm design a central technological concern.
+
+\begin{proposition}[Algorithms as Core Technology]
+Algorithms are as fundamental to computing as hardware, networking, or 
+user interfaces. They are decisive in domains such as:
+\begin{itemize}
+    \item \emph{Genome sequencing} --- dynamic programming for sequence alignment.
+    \item \emph{Internet routing} --- shortest-path algorithms.
+    \item \emph{E-commerce security} --- public-key cryptography and digital signatures.
+    \item \emph{Data science and machine learning} --- clustering, regression, and optimization.
+\end{itemize}
+\end{proposition}
+
+\subsection*{Calculative: Insertion Sort vs. Merge Sort}
+Insertion sort runs in $\Theta(n^2)$ time in the worst case. Merge sort runs in 
+$\Theta(n \log n)$ time. While insertion sort may be faster for small $n$, merge sort 
+outpaces it dramatically as $n$ grows.
+
+\textbf{Lesson.} Hardware advances matter, but the choice of algorithm often 
+determines whether a problem is tractable at scale.
+
+\subsection*{Concluding Remarks}
+Algorithms formalize computation and efficiency. \emph{Correctness} ensures 
+reliability. \emph{Asymptotic efficiency} ensures scalability. As we proceed, 
+we will refine the mathematical tools---summations, asymptotics, recurrences---
+that allow precise analysis of algorithm performance.
+
+\newpage
+
+\dotfill
+\section*{Chapter 2: Getting Started}
+\dotfill
+
+\subsection*{Historical Context}
+Sorting problems have been studied since antiquity in contexts ranging from 
+orderly arrangements of data to the efficient execution of arithmetic. 
+With the rise of computing, sorting became a fundamental operation, 
+appearing as a subroutine in countless algorithms. Early mechanical 
+computers, such as Hollerith’s tabulating machine, were built to handle 
+sorting tasks. Today, sorting is a laboratory for algorithm design: many 
+techniques---incremental, divide-and-conquer, randomized---are first 
+understood through sorting.
+
+\subsection*{Insertion Sort (2.1)}
+
+\begin{definition}[Sorting Problem]
+\leavevmode
+\begin{itemize}
+    \item \textbf{Input:} A sequence of $n$ numbers $\langle a_1, a_2, \dots, a_n \rangle$.
+    \item \textbf{Output:} A permutation $\langle a_{\pi(1)}, a_{\pi(2)}, \dots, a_{\pi(n)} \rangle$ 
+    such that 
+    \[
+        a_{\pi(1)} \leq a_{\pi(2)} \leq \cdots \leq a_{\pi(n)}.
+    \]
+\end{itemize}
+\end{definition}
+
+\begin{algorithm}[H]
+\caption{Insertion-Sort($A, n$)}
+\begin{algorithmic}[1]
+\For{$i \gets 2$ \textbf{to} $n$}
+  \State $key \gets A[i]$
+  \State $j \gets i - 1$
+  \While{$j > 0 \land A[j] > key$}
+    \State $A[j+1] \gets A[j]$
+    \State $j \gets j - 1$
+  \EndWhile
+  \State $A[j+1] \gets key$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\subsection*{Loop Invariants and Correctness}
+\begin{proposition}[Loop Invariant for Insertion Sort]
+At the start of each iteration of the \texttt{for} loop with index $i$, the subarray 
+$A[1:i-1]$ consists of the elements originally in $A[1:i-1]$, but in sorted order.
+\end{proposition}
+
+\textbf{Proof.}
+\begin{enumerate}
+    \item \emph{Initialization.} Prior to the first iteration ($i=2$), the subarray $A[1]$ 
+    trivially contains a single element, and is therefore sorted.
+    \item \emph{Maintenance.} Assume $A[1:i-1]$ is sorted at the start of iteration $i$. 
+    The while loop shifts larger elements to the right until the correct position 
+    for $A[i]$ is found. Inserting $key$ there yields that $A[1:i]$ is sorted. 
+    Thus the invariant is preserved.
+    \item \emph{Termination.} When the loop terminates, $i=n+1$. By the invariant, 
+    $A[1:n]$ is sorted. Therefore the algorithm is correct.
+\end{enumerate}
+\qed
+
+\subsection*{Analyzing Algorithms (2.2)}
+
+\begin{definition}[Running Time]
+The running time $T(n)$ of an algorithm on input of size $n$ is the number 
+of primitive instructions executed, measured as a function of $n$.
+\end{definition}
+
+\textbf{Analysis of Insertion Sort.}
+\begin{itemize}
+    \item \emph{Best case:} Input already sorted. Each inner while-loop runs only once, 
+    giving $T(n) = \Theta(n)$.
+    \item \emph{Worst case:} Input in reverse order. Each $A[i]$ is compared against 
+    all of $A[1:i-1]$, giving $T(n) = \Theta(n^2)$.
+\end{itemize}
+
+\subsection*{Merge Sort (2.3)}
+
+\begin{algorithm}[H]
+\caption{Merge-Sort($A, p, r$)}
+\begin{algorithmic}[1]
+\If{$p \geq r$}
+  \State \Return
+\EndIf
+\State $q \gets \lfloor (p+r)/2 \rfloor$
+\State \Call{Merge-Sort}{$A, p, q$}
+\State \Call{Merge-Sort}{$A, q+1, r$}
+\State \Call{Merge}{$A, p, q, r$}
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{Merge($A, p, q, r$)}
+\begin{algorithmic}[1]
+\State copy $A[p:q]$ into array $L$; copy $A[q+1:r]$ into array $R$
+\State $i \gets 0$;\; $j \gets 0$;\; $k \gets p$
+\While{$i < |L| \land j < |R|$}
+  \If{$L[i] \le R[j]$}
+    \State $A[k] \gets L[i]$;\; $i \gets i+1$
+  \Else
+    \State $A[k] \gets R[j]$;\; $j \gets j+1$
+  \EndIf
+  \State $k \gets k+1$
+\EndWhile
+\While{$i < |L|$}
+  \State $A[k] \gets L[i]$;\; $i \gets i+1$;\; $k \gets k+1$
+\EndWhile
+\While{$j < |R|$}
+  \State $A[k] \gets R[j]$;\; $j \gets j+1$;\; $k \gets k+1$
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{Recurrence for Merge Sort.}  
+\[
+T(n) = 
+\begin{cases}
+\Theta(1), & n=1, \\
+2T(n/2) + \Theta(n), & n > 1.
+\end{cases}
+\]
+
+By the Master Theorem, $T(n) = \Theta(n \log n)$.
+
+\subsection*{Concluding Remarks}
+Insertion sort illustrates correctness proofs via loop invariants and 
+quadratic-time analysis. Merge sort exemplifies divide-and-conquer design, 
+yielding $O(n \log n)$ performance. Together, they demonstrate the principle: 
+algorithmic efficiency, not just hardware speed, determines scalability.
+
+
+
+\end{document}
