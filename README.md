@@ -1,7 +1,7 @@
 
 # Project CLRS
 
-This repository hosts a 16-part lecture series created by Harley Caham Combest for MATH5353 (Abstract Algebra I in Fall 2025) & MATH5363 (Abstract Algebra II in Spring 2026) under Dr. Grimley, focused on the technical and general approach to Algebra in the third edition of *Introduction to Algorithm Analysis* by CLRS.
+This repository hosts a 16-part lecture series created by Harley Caham Combest for CS4413 with Dr. Grimley, focused on the technical and general approach to Algorithm Analysis in the third edition of *Introduction to Algorithm Analysis* by CLRS.
 
 Each lecture includes:
 - A YouTube video
