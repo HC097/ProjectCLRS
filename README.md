@@ -15,6 +15,15 @@ Each lecture includes:
   
 ---
 
-## License  
+## 📜 License
 
-MIT License. Free to use, adapt, and share with attribution.  
+All lecture notes and commentary © Harley Caham Combest.  
+This work is licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License**.
+
+You may:
+- Share or adapt the materials with attribution
+- Not use for commercial purposes
+- Share any derivatives under the same license
+
+This project is for educational purposes and does not reproduce any copyrighted content from CLRS’s textbook.
+
