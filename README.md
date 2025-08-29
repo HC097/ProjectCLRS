@@ -13,18 +13,11 @@ The goal is not to replace the book, but to:
 - Provide commentary and emphasis on core algorithmic ideas.  
 - Support rigorous, long-term mastery of algorithm analysis.  
 
-This repository continues in the spirit of [Project Boyer–Bach](https://github.com/HC097/ProjectBoyerBach): building **structured codices of knowledge** from canonical texts.  
-
 ---
 
-## Scope  
+## 📺 Watch the Series
 
-- Covers the entirety of CLRS (4th Edition).  
-- Each lecture includes:  
-  - Summary of key concepts  
-  - Proof sketches and algorithm derivations  
-  - Selected exercises and walkthroughs  
-- Additional commentary highlights connections across chapters.
+[▶️ YouTube Playlist – Project CLRS](https://www.youtube.com/playlist?list=PL0KmvrFqDNuvm-JNNkd6OLspi7gnn-rZt)
   
 ---
 
