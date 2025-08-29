@@ -17,7 +17,7 @@ This repository continues in the spirit of [Project Boyer–Bach](https://github
 
 ---
 
-## 🎯 Scope  
+## Scope  
 
 - Covers the entirety of CLRS (4th Edition).  
 - Each lecture includes:  
@@ -28,6 +28,6 @@ This repository continues in the spirit of [Project Boyer–Bach](https://github
   
 ---
 
-## 📜 License  
+## License  
 
 MIT License. Free to use, adapt, and share with attribution.  
