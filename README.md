@@ -1,17 +1,11 @@
-# ProjectCLRS  
 
-*A structured lecture series based on Cormen, Leiserson, Rivest, and Stein’s* **Introduction to Algorithms (CLRS).**  
-This project organizes the text into a sequence of lectures to support deep understanding of algorithm analysis.  
+# Project CLRS
 
----
+This repository hosts a 16-part lecture series created by Harley Caham Combest for MATH5353 (Abstract Algebra I in Fall 2025) & MATH5363 (Abstract Algebra II in Spring 2026) under Dr. Grimley, focused on the technical and general approach to Algebra in the third edition of *Introduction to Algorithm Analysis* by CLRS.
 
-## Purpose  
-
-ProjectCLRS translates the canonical CLRS text into a **teachable lecture format**.  
-The goal is not to replace the book, but to:  
-- Structure its material into digestible lectures.  
-- Provide commentary and emphasis on core algorithmic ideas.  
-- Support rigorous, long-term mastery of algorithm analysis.  
+Each lecture includes:
+- A YouTube video
+- PDF notes (LaTeX-compiled)
 
 ---
 
