@@ -1,0 +1,1260 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb, geometry, graphicx}
+\usepackage{titlesec}
+% For nicely formatted pseudocode:
+\usepackage{algorithm}      % floating "Algorithm" environment
+\usepackage{algpseudocode}  % modern algorithmic macros: \For, \While, \State, \To, etc.
+\usepackage{float}          % enables the [H] placement specifier
+
+% (Optional) nicer inline comments in pseudocode:
+\algrenewcommand\algorithmiccomment[1]{\hfill\(\triangleright\)~#1}
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{calculative}[theorem]{Calculative}
+\newtheorem{exercise}[theorem]{Exercise}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\titleformat{\section}[block]{\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}[runin]{\bfseries}{}{0pt}{}[.]
+
+\begin{document}
+
+\begin{center}
+\Large\textbf{Exercise Notes - Chpt 1, Chpt 2} \\
+\large Harley Caham Combest \\
+\large Fa2025 CS4413 Lecture Notes – Mk1
+\end{center}
+
+\vspace{1em}
+
+\dotfill
+\section*{Chapter 1: The Role of Algorithms in Computing}
+\dotfill
+
+\vspace{1em}
+
+\subsection*{1.1 Exercises}
+
+\begin{exercise}
+\noindent
+\textbf{1.1-1}\\
+\noindent
+Describe your own real-world example that requires sorting. Describe one
+that requires finding the shortest distance between two points.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} Sorting is like putting exam papers in alphabetical order so
+the teacher can enter grades quickly. Finding the shortest distance is like
+using Google Maps to walk from the dorm to the library.\\
+
+\noindent
+\textbf{Rigorous:} Sorting takes a sequence of items with keys and produces a
+permutation in nondecreasing order. Examples include insertion sort,
+merge sort, or quicksort. The shortest distance problem can be formalized
+as finding a minimum-weight path in a graph $G=(V,E,w)$. This is solvable
+with Dijkstra’s algorithm for nonnegative weights or Bellman–Ford if
+negative edges are possible.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{1.1-2}\\
+\noindent
+Other than speed, what other measures of efficiency might you need to
+consider in a real-world setting?
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} A program that runs fast but crashes, drains the battery, or
+uses all the memory is not efficient.\\
+
+\noindent
+\textbf{Rigorous:} Additional efficiency measures include:
+\begin{itemize}
+  \item Space complexity (auxiliary and peak memory usage).
+  \item I/O cost and cache locality.
+  \item Energy/power consumption.
+  \item Scalability, throughput, and latency.
+  \item Numerical stability and precision in scientific computing.
+  \item Reliability, fault tolerance, and maintainability.
+\end{itemize}
+These factors often determine the practicality of an algorithm.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{1.1-3}\\
+\noindent
+Select a data structure that you have seen, and discuss its strengths and
+limitations.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} A hash table is like cubbies with labels. Put something in
+by label and you can grab it instantly.\\
+
+\noindent
+\textbf{Rigorous:} 
+\emph{Strengths:} $O(1)$ expected time for insert/search/delete; ideal for
+membership tests and frequency counts.  
+\emph{Limitations:} No ordering (can’t support range queries or “next”);
+worst-case $O(n)$ under many collisions; memory overhead and resizing;
+performance depends on hash function quality. Balanced BSTs give $O(\log n)$
+operations with ordering guarantees.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{1.1-4}\\
+\noindent
+How are the shortest-path and traveling-salesperson problems given above
+similar? How are they different?
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} Both are about “finding the best route.” The shortest path
+is one trip, the TSP is visiting every city exactly once.\\
+
+\noindent
+\textbf{Rigorous:} The shortest-path problem finds a minimum-weight path
+between two vertices and is solvable in polynomial time (Dijkstra,
+Bellman–Ford). The traveling-salesperson problem (TSP) seeks a minimum
+Hamiltonian cycle and is NP-hard. Thus SP has efficient algorithms;
+TSP requires exponential-time exact methods or approximation schemes.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{1.1-5}\\
+\noindent
+Suggest a real-world problem in which only the best solution will do. Then
+come up with one in which “approximately” the best solution is good
+enough.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Exact best required:} Radiation therapy planning—constraints on dose
+to organs-at-risk must be satisfied exactly. Gate assignment in airports also
+requires exact conflict-free scheduling.\\
+
+\noindent
+\textbf{Approximate is fine:} Delivery routing (TSP-like) where a route within
+a few percent of optimal still saves time and fuel. Search engine ranking,
+where nearly-best relevance is sufficient for users.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{1.1-6}\\
+\noindent
+Describe a real-world problem in which sometimes the entire input is
+available before you need to solve the problem, but other times the input is
+not entirely available in advance and arrives over time.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} Ride-sharing requests after a concert may arrive in one big
+batch (offline), but on a normal night they arrive one at a time (online).\\
+
+\noindent
+\textbf{Rigorous:} Offline algorithms assume complete knowledge of input
+before computation. Online algorithms must decide without knowing
+future inputs. Competitive analysis is used to compare online algorithms to
+the offline optimal.
+\end{proof}
+
+
+\dotfill
+\newpage
+
+\subsection*{1.2 Exercises}
+
+\begin{exercise}
+\noindent
+\textbf{1.2-1}\\
+\noindent
+Give an example of an application that requires algorithmic content at the
+application level, and discuss the function of the algorithms involved.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} A navigation app like Google Maps cannot just draw streets;
+it must use algorithms to compute routes, estimate traffic delays, and suggest
+alternatives.\\
+
+\noindent
+\textbf{Rigorous:} At the application level, shortest-path algorithms (e.g.,
+Dijkstra’s or A*) are required to compute routes in a weighted graph model
+of the road network. Additional algorithms like dynamic programming (for
+travel-time prediction), flow algorithms (for congestion modeling), or data
+structures (priority queues for fast edge relaxations) are essential to ensure
+practical, efficient service.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{1.2-2}\\
+\noindent
+Suppose that for inputs of size $n$ on a particular computer, insertion sort
+runs in $8n^2$ steps and merge sort runs in $64n \lg n$ steps. For which values
+of $n$ does insertion sort beat merge sort?
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} For small $n$, the $n^2$ method can be faster, but as $n$
+grows, $n \lg n$ grows more slowly, so merge sort eventually wins.\\
+
+\noindent
+\textbf{Rigorous:} We compare:
+\[
+8n^2 < 64n \lg n \quad \Longleftrightarrow \quad n < 8 \lg n.
+\]
+The inequality $n < 8 \lg n$ holds only for small $n$. Checking values:
+\begin{itemize}
+  \item $n=2$: $2 < 8\cdot 1 = 8$ (true).
+  \item $n=10$: $10 < 8\cdot \lg 10 \approx 26.6$ (true).
+  \item $n=40$: $40 < 8\cdot \lg 40 \approx 42.6$ (true).
+  \item $n=43$: $43 < 8\cdot \lg 43 \approx 42.6$ (false).
+\end{itemize}
+Thus insertion sort beats merge sort for $n \leq 43$ on this machine.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{1.2-3}\\
+\noindent
+What is the smallest value of $n$ such that an algorithm whose running time
+is $100n^2$ runs faster than an algorithm whose running time is $2^n$ on the
+same machine?
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} Exponentials eventually outgrow quadratics. The question is
+where the crossover happens.\\
+
+\noindent
+\textbf{Rigorous:} We want $100n^2 < 2^n$. Checking values:
+\begin{itemize}
+  \item $n=10$: $100\cdot 100 = 10{,}000$ vs $2^{10} = 1{,}024$ (false).
+  \item $n=15$: $100\cdot 225 = 22{,}500$ vs $2^{15} = 32{,}768$ (true).
+  \item $n=14$: $100\cdot 196 = 19{,}600$ vs $2^{14} = 16{,}384$ (false).
+\end{itemize}
+Therefore the smallest $n$ is $n=15$.
+\end{proof}
+
+\dotfill
+\newpage
+
+\subsection*{Chpt 1 Problems}
+
+\begin{exercise}
+\noindent
+\textbf{1-1 Comparison of running times}\\
+\noindent
+For each function $f(n)$ and time $t$ in the following table, determine the
+largest size $n$ of a problem that can be solved in time $t$, assuming that
+the algorithm to solve the problem takes $f(n)$ microseconds.
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+$f(n)$ & 1 second & 1 minute & 1 hour & 1 day & 1 month & 1 year \\
+\hline
+$\lg n$   & & & & & & \\
+\hline
+$\sqrt{n}$ & & & & & & \\
+\hline
+$n$       & & & & & & \\
+\hline
+$n \lg n$ & & & & & & \\
+\hline
+$n^2$     & & & & & & \\
+\hline
+$n^3$     & & & & & & \\
+\hline
+$2^n$     & & & & & & \\
+\hline
+$n!$      & & & & & & \\
+\hline
+\end{tabular}
+\end{center}
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} Think of each row as “how big an input can you handle” in a given amount of time.  
+Fast-growing functions (like $2^n$ and $n!$) explode quickly, so they only allow very small $n$.  
+Slow-growing functions (like $\lg n$) let you solve astronomically large instances.\\
+
+\noindent
+\textbf{Rigorous:} We assume 1 second = $10^6$ microseconds, 1 minute = $6\cdot 10^7$,  
+1 hour = $3.6\cdot 10^9$, 1 day = $8.64\cdot 10^{10}$, 1 month $\approx 2.6\cdot 10^{12}$,  
+1 year $\approx 3.15\cdot 10^{13}$. Solving $f(n) \leq T$ for each case yields:  
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+$f(n)$ & 1 second & 1 minute & 1 hour & 1 day & 1 month & 1 year \\
+\hline
+$\lg n$   & $2^{10^6}$ & $2^{6\cdot 10^7}$ & $2^{3.6\cdot 10^9}$ & $2^{8.64\cdot 10^{10}}$ & $2^{2.6\cdot 10^{12}}$ & $2^{3.15\cdot 10^{13}}$ \\
+\hline
+$\sqrt{n}$ & $10^{12}$ & $3.6\cdot 10^{15}$ & $1.3\cdot 10^{19}$ & $7.5\cdot 10^{21}$ & $6.7\cdot 10^{25}$ & $9.9\cdot 10^{26}$ \\
+\hline
+$n$       & $10^6$ & $6\cdot 10^7$ & $3.6\cdot 10^9$ & $8.6\cdot 10^{10}$ & $2.6\cdot 10^{12}$ & $3.2\cdot 10^{13}$ \\
+\hline
+$n \lg n$ & $\approx 6.3\cdot 10^4$ & $\approx 2.8\cdot 10^6$ & $\approx 1.3\cdot 10^8$ & $\approx 2.7\cdot 10^9$ & $\approx 7.7\cdot 10^{10}$ & $\approx 8.8\cdot 10^{11}$ \\
+\hline
+$n^2$     & $10^3$ & $7.7\cdot 10^3$ & $6\cdot 10^4$ & $2.9\cdot 10^5$ & $1.6\cdot 10^6$ & $5.6\cdot 10^6$ \\
+\hline
+$n^3$     & $100$ & $390$ & $1.5\cdot 10^3$ & $4.4\cdot 10^3$ & $1.4\cdot 10^4$ & $3.2\cdot 10^4$ \\
+\hline
+$2^n$     & $20$ & $26$ & $32$ & $36$ & $41$ & $45$ \\
+\hline
+$n!$      & $9$ & $11$ & $12$ & $13$ & $15$ & $16$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent
+Thus, functions with polynomial or slower growth scale to very large $n$, while exponential or factorial growth makes even modest $n$ infeasible.
+\end{proof}
+
+\newpage
+
+\dotfill
+\section*{Chapter 2: Getting Started}
+\dotfill
+
+\vspace{1em}
+
+\subsection*{2.1 Exercises}
+
+% === Chapter 2, Section 2.1 Exercises with Solutions ===
+
+\begin{exercise}
+\noindent
+\textbf{2.1-1}\\
+\noindent
+Using Figure 2.2 as a model, illustrate the operation of INSERTION-SORT on
+an array initially containing the sequence $\langle 31, 41, 59, 26, 41, 58 \rangle$.
+\end{exercise}
+
+\begin{center}
+    \includegraphics[scale=0.30]{fig2pt2.png}
+\end{center}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} Treat the left prefix as your “sorted hand.” At step $j$, pull out the key $A[j]$,
+slide any larger elements in the prefix one position right, and drop the key in the hole that opens.\\
+
+\noindent
+\textbf{Rigorous (full trace matching Fig.\ 2.2):}
+Let the outer loop index be $j=2,\dots,6$ and the key be $A[j]$ at each step.
+
+\begin{align*}
+\text{Initial} \quad & [\,5,\,2,\,4,\,6,\,1,\,3\,] \\
+j=2,\; \text{key}=2:\quad & [\,\underline{5},\,\boxed{2},\,4,\,6,\,1,\,3\,] \;\Rightarrow\; [\,2,\,5,\,4,\,6,\,1,\,3\,] \\
+j=3,\; \text{key}=4:\quad & [\,2,\,\underline{5},\,\boxed{4},\,6,\,1,\,3\,] \;\Rightarrow\; [\,2,\,4,\,5,\,6,\,1,\,3\,] \\
+j=4,\; \text{key}=6:\quad & [\,2,\,4,\,5,\,\boxed{6},\,1,\,3\,] \;\Rightarrow\; [\,2,\,4,\,5,\,6,\,1,\,3\,] \quad (\text{no shifts})\\
+j=5,\; \text{key}=1:\quad & [\,2,\,4,\,5,\,6,\,\boxed{1},\,3\,]
+   \;\Rightarrow\; \text{shift }6,5,4,2 \text{ right}
+   \;\Rightarrow\; [\,1,\,2,\,4,\,5,\,6,\,3\,] \\
+j=6,\; \text{key}=3:\quad & [\,1,\,2,\,4,\,5,\,6,\,\boxed{3}\,]
+   \;\Rightarrow\; \text{shift }6,5,4 \text{ right}
+   \;\Rightarrow\; [\,1,\,2,\,\boxed{3},\,4,\,5,\,6\,]
+\end{align*}
+
+\noindent
+\textbf{Final (sorted)}:\; $[\,1,\,2,\,3,\,4,\,5,\,6\,]$.
+
+\smallskip
+\noindent
+\textbf{Why this is correct:} The standard loop invariant holds:
+before processing index $j$, the prefix $A[1..j-1]$ is sorted in nondecreasing order.
+The inner while-loop maintains the invariant by shifting all elements greater than \textit{key}
+one position to the right and then placing \textit{key} in the unique position that preserves order.
+At termination ($j=7$), the entire array $A[1..6]$ is sorted.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2.1-2}\\
+\noindent
+Consider the procedure SUM-ARRAY. It computes the sum of the $n$ numbers in array $A[1:n]$.
+State a loop invariant for this procedure, and use its initialization, maintenance, and termination
+properties to show that the procedure returns the sum of the numbers in $A[1:n]$.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} After $i-1$ steps, the running total is exactly the sum of the first $i-1$ items.
+Each step adds the next item, so the invariant “slides” forward until all items are included.\\
+
+\noindent
+\textbf{Rigorous (loop invariant):} At the start of each iteration with index $i$ ($1\le i\le n+1$),
+\[
+\texttt{sum} \;=\; \sum_{k=1}^{i-1} A[k].
+\]
+\emph{Initialization ($i=1$):} Before the first iteration, \texttt{sum}$=0$, which equals the empty sum
+$\sum_{k=1}^{0}A[k]=0$.\\
+\emph{Maintenance:} Assuming the invariant holds at the start of iteration $i\le n$,
+the body executes \texttt{sum = sum + A[i]}, yielding
+\[
+\texttt{sum} \;=\; \sum_{k=1}^{i-1}A[k] + A[i] \;=\; \sum_{k=1}^{i}A[k],
+\]
+which matches the invariant for the next iteration ($i\!\gets\! i+1$).\\
+\emph{Termination:} The loop ends when $i=n+1$. By the invariant,
+\[
+\texttt{sum} \;=\; \sum_{k=1}^{n}A[k],
+\]
+so the returned value is the sum of $A[1:n]$.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2.1-3}\\
+\noindent
+Rewrite the INSERTION-SORT procedure to sort into monotonically decreasing
+instead of monotonically increasing order.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} The only change is the comparison direction:
+shift elements that are \emph{smaller} than the key to the right so that larger elements stay to the left.\\
+
+\noindent
+\textbf{Rigorous (pseudocode):}
+\begin{verbatim}
+DECREASING-INSERTION-SORT(A, n)
+1  for j = 2 to n
+2      key = A[j]
+3      i = j - 1
+4      while i >= 1 and A[i] < key       // flip the comparison
+5          A[i+1] = A[i]
+6          i = i - 1
+7      A[i+1] = key
+\end{verbatim}
+\emph{Correctness sketch.} The standard loop invariant adapts:
+at the start of each outer iteration $j$, the prefix $A[1..j-1]$ is sorted in
+\emph{nonincreasing} order. The inner loop shifts elements $<\texttt{key}$ rightward,
+and places \texttt{key} in the unique spot preserving nonincreasing order.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2.1-4}\\
+\noindent
+Write pseudocode for linear search, which scans through the array from beginning
+to end, looking for $x$. Using a loop invariant, prove that your algorithm is correct.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} Walk left-to-right; if you see $x$, return its index; if you finish
+the walk without seeing it, return \textsc{NIL}.\\
+
+\noindent
+\textbf{Rigorous (pseudocode):}
+\begin{verbatim}
+LINEAR-SEARCH(A, n, x)
+1  for i = 1 to n
+2      if A[i] == x
+3          return i
+4  return NIL
+\end{verbatim}
+\textbf{Loop invariant:} At the start of each iteration with index $i$ ($1\le i\le n+1$),
+$x$ does not occur in $A[1..i-1]$.\\
+\emph{Initialization:} For $i=1$, the prefix $A[1..0]$ is empty, so the invariant holds.\\
+\emph{Maintenance:} If $A[i]=x$, we return $i$ and are correct. If not, then
+$x\notin A[1..i]$, so at the next iteration ($i\!\gets\! i+1$) the invariant holds.\\
+\emph{Termination:} If the loop completes, $i=n+1$ and the invariant gives
+$x\notin A[1..n]$, so returning \textsc{NIL} is correct.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2.1-5}\\
+\noindent
+Consider adding two $n$-bit binary integers $a$ and $b$, stored in arrays
+$A[0:n-1]$ and $B[0:n-1]$ (LSB at index 0). The sum $c=a+b$ should be stored
+in an $(n+1)$-element array $C[0:n]$. Write \textsc{ADD-BINARY-INTEGERS}.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} Add bit-by-bit from least significant to most significant, carrying
+a 0/1 as needed (exactly like pencil-and-paper addition in base 2).\\
+
+\noindent
+\textbf{Rigorous (pseudocode \& correctness):}
+\begin{verbatim}
+ADD-BINARY-INTEGERS(A, B, n)
+1  carry = 0
+2  for i = 0 to n-1
+3      s = A[i] + B[i] + carry       // s IN {0,1,2,3}
+4      C[i] = s mod 2
+5      carry = floor(s / 2)          // 0 or 1
+6  C[n] = carry
+7  return C
+\end{verbatim}
+\emph{Correctness invariant:} After processing bit $i-1$ (i.e., at loop index $i$),
+\[
+\sum_{k=0}^{i-1} C[k]\cdot 2^k \;+\; \texttt{carry}\cdot 2^i
+\;=\; \sum_{k=0}^{i-1} A[k]\cdot 2^k \;+\; \sum_{k=0}^{i-1} B[k]\cdot 2^k.
+\]
+Initialization holds with all sums $0$. Maintenance follows from base-2 addition:
+$s = A[i]+B[i]+\texttt{carry}$ writes $C[i]=s\bmod 2$ and updates $\texttt{carry}=\lfloor s/2\rfloor$,
+preserving the weighted-sum identity. At termination ($i=n$), $\texttt{carry}$ is
+stored as $C[n]$, so $C$ encodes $a+b$ in binary.
+\end{proof}
+
+\dotfill
+\newpage
+
+\subsection*{2.2 Exercises}
+
+% === Chapter 2, Section 2.2 Exercises with Solutions ===
+
+\begin{exercise}
+\noindent
+\textbf{2.2-1}\\
+\noindent
+Express the function $n^3/1000 + 100n^2 - 100n + 3$ in terms of $\Theta$-notation.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} For large $n$, the highest-degree term “wins.” Cubic beats quadratic and linear,
+so the function grows like $n^3$.\\
+
+\noindent
+\textbf{Rigorous:} There exist $c_1,c_2>0$ and $n_0$ such that for all $n\ge n_0$,
+\[
+c_1 n^3 \;\le\; \frac{n^3}{1000} + 100n^2 - 100n + 3 \;\le\; c_2 n^3 .
+\]
+For example, take $n_0=1000$, $c_1=\tfrac{1}{2000}$ and $c_2=\tfrac{1}{1000}+100+\tfrac{100}{n_0}+\tfrac{3}{n_0^3}$.
+Hence $n^3/1000 + 100n^2 - 100n + 3 \in \Theta(n^3)$.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2.2-2}\\
+\noindent
+Consider sorting $n$ numbers stored in array $A[1:n]$ by repeatedly finding the smallest remaining
+element and swapping it into place (selection sort). Write pseudocode for this algorithm. What loop
+invariant does this algorithm maintain? Why does it need to run for only the first $n-1$ elements,
+rather than all $n$? Give the worst-case running time of selection sort in $\Theta$-notation. Is the
+best-case running time any better?
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} On pass $i$, scan the tail to find the minimum and swap it into position $i$.
+After pass $i$, the first $i$ entries are the $i$ smallest in order.\\
+
+\noindent
+\textbf{Rigorous (pseudocode):}
+\begin{verbatim}
+SELECTION-SORT(A, n)
+1  for i = 1 to n-1
+2      minIdx = i
+3      for j = i+1 to n
+4          if A[j] < A[minIdx]
+5              minIdx = j
+6      swap A[i] and A[minIdx]
+\end{verbatim}
+
+\noindent
+\textbf{Loop invariant:}
+At the start of each outer iteration $i$ ($1\le i\le n$),
+the prefix $A[1..i-1]$ consists of the $i-1$ smallest elements of $A$ in nondecreasing order,
+and every element in $A[i..n]$ is at least $A[i-1]$.
+
+\emph{Initialization:} For $i=1$, the prefix $A[1..0]$ is empty—trivially sorted and smallest.\\
+\emph{Maintenance:} The inner loop finds the minimum of $A[i..n]$ and swaps it into $A[i]$,
+so after the swap the invariant holds for $i+1$.\\
+\emph{Termination:} When $i=n$, the invariant implies $A[1..n-1]$ is the $n-1$ smallest in order,
+so the last element must be the largest; the array is sorted.
+
+\noindent
+\textbf{Why only to $n-1$:} After placing the first $n-1$ elements, the $n$th is determined.
+
+\noindent
+\textbf{Running time:} Comparisons are $\sum_{i=1}^{n-1}(n-i)=\frac{n(n-1)}{2}\in \Theta(n^2)$; swaps are $n-1$.
+This holds in the worst and \emph{also} the best case (the minimum search still scans the tail),
+so best-case time is not better: $\Theta(n^2)$.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2.2-3}\\
+\noindent
+Consider linear search again (see Exercise 2.1-4). How many elements of the input array need to be
+checked on the average, assuming that the element being searched for is equally likely to be any
+element in the array? How about in the worst case? Using $\Theta$-notation, give the average-case
+and worst-case running times of linear search. Justify your answers.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} If the target is equally likely to be anywhere, you’ll find it roughly halfway
+through on average, but sometimes you might need to inspect all $n$ elements.\\
+
+\noindent
+\textbf{Rigorous:} Let $X$ be the index where the key occurs; assume $\Pr[X=i]=1/n$ for $i=1,\dots,n$.
+The algorithm checks exactly $X$ elements. Thus
+\[
+\mathbb{E}[X] = \frac{1}{n}\sum_{i=1}^{n} i = \frac{n+1}{2}.
+\]
+So the average number checked is $(n+1)/2$, giving average time $\Theta(n)$.
+In the worst case, the key is at position $n$ (or absent, if allowed), requiring $n$ checks:
+worst-case time $\Theta(n)$.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2.2-4}\\
+\noindent
+How can you modify any sorting algorithm to have a good best-case running time?
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} Detect when the input is already sorted (or a pass makes no changes) and stop early.\\
+
+\noindent
+\textbf{Rigorous:} Augment the algorithm with an $O(n)$ precheck (e.g., a single left-to-right scan
+verifying $A[i]\le A[i+1]$ for all $i$) \emph{or} an early-exit condition within passes (e.g., a “no-swap”
+flag in bubblesort, or halting insertion sort immediately when no shifts occur during a pass).
+If the input is already sorted, the algorithm returns after $O(n)$ work, so the \emph{best-case} time
+becomes $\Theta(n)$, while the \emph{worst-case} and \emph{average-case} complexities remain unchanged.
+\end{proof}
+
+\dotfill
+\newpage
+
+\subsection*{2.3 Exercises}
+
+\begin{exercise}
+\noindent
+\textbf{2.3-1}\\
+\noindent
+Using Figure 2.4 as a model, illustrate the operation of merge sort on an
+array initially containing the sequence $\langle 3, 41, 52, 26, 38, 57, 9, 49 \rangle$.
+\end{exercise}
+
+\begin{center}
+    \includegraphics[scale=0.30]{fig2pt4.png}
+\end{center}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} Repeatedly split the array in half until singletons, then
+merge adjacent sorted subarrays back together.\\
+
+\noindent
+\textbf{Rigorous (trace matching Fig.\ 2.4):}
+\[
+A=[12,3,7,9,14,6,11,2]
+\]
+\emph{Divide to singletons:}
+\[
+[12,3,7,9]\,[14,6,11,2] \;\Rightarrow\; [12,3]\,[7,9]\,[14,6]\,[11,2]
+\;\Rightarrow\; [12]\,[3]\,[7]\,[9]\,[14]\,[6]\,[11]\,[2]
+\]
+\emph{Merge pairs:}
+\[
+[12]\circ[3]\!\to\![3,12]\,,\quad [7]\circ[9]\!\to\![7,9]\,,\quad
+[14]\circ[6]\!\to\![6,14]\,,\quad [11]\circ[2]\!\to\![2,11]
+\]
+\emph{Merge level-2:}
+\[
+[3,12]\circ[7,9]\!\to\![3,7,9,12]\,,\qquad
+[6,14]\circ[2,11]\!\to\![2,6,11,14]
+\]
+\emph{Final merge:}
+\[
+[3,7,9,12]\circ[2,6,11,14]\;\to\;[2,3,6,7,9,11,12,14].
+\]
+By the merge invariant (see 2.3-3), each merge produces a sorted array from
+two sorted halves, hence the final array is sorted.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2.3-2}\\
+\noindent
+The test in line 1 of \textsc{MERGE-SORT} reads “if $p \ge r$” rather than “if $p \ne r$.”
+If \textsc{MERGE-SORT} is called with $p>r$, then $A[p:r]$ is empty. Argue that
+as long as the initial call \textsc{MERGE-SORT}$(A,1,n)$ has $n\ge1$, the test
+“if $p \ne r$” suffices to ensure that no recursive call has $p>r$.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} We only ever split valid nonempty ranges in half; both
+children remain valid ranges with $p\le r$.\\
+
+\noindent
+\textbf{Rigorous:} Assume the initial call has $1\le p\le r=n$. If $p\ne r$, the code
+sets $q=\lfloor(p+r)/2\rfloor$ and recurses on $[p:q]$ and $[q+1:r]$.
+Because $p\le q<r$, both satisfy $p\le r$ and are nonempty or singletons.
+Inductively, any call with $p\le r$ generates children with
+$p\le q\le r-1$ and $p+1\le q+1\le r$, hence $p\le r$ persists and
+$p>r$ never occurs. Thus the condition “$p\ne r$” is sufficient.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2.3-3}\\
+\noindent
+State a loop invariant for the \texttt{while} loop of lines 12–18 of the \textsc{MERGE}
+procedure. Show how to use it, along with the \texttt{while} loops of lines 20–23
+and 24–27, to prove that \textsc{MERGE} is correct.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} At each step, we place the smallest first element among the
+two input lists into the output; the prefix written so far is the globally
+smallest set of elements in sorted order.\\
+
+\noindent
+\textbf{Rigorous (main invariant):}
+Let $i,j$ index the current heads of the two sorted lists $L$ and $R$, and let
+$k$ index the output segment $A[p..r]$. \emph{Invariant:} At the start of each
+iteration of lines 12–18,
+\[
+A[p..k-1] \text{ contains the }(k-p)\text{ smallest elements of }L[i..]\cup R[j..]
+\text{ in nondecreasing order,}
+\]
+and all elements in $A[p..k-1]$ are $\le$ every element remaining in
+$L[i..]$ and $R[j..]$.\\
+\emph{Initialization:} $k=p$, so the prefix is empty and trivially sorted.\\
+\emph{Maintenance:} The loop compares $L[i]$ and $R[j]$, writes the smaller
+to $A[k]$, and advances the corresponding index. This preserves that the
+output prefix contains exactly the next smallest element and remains sorted.\\
+\emph{Termination:} The loop stops when either list is exhausted. The
+cleanup loops (20–23 and 24–27) copy the remainder of the nonempty list
+into $A$. Since all remaining elements are $\ge$ the last written element,
+the final array $A[p..r]$ is a stable, sorted merge of the two inputs.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2.3-4}\\
+\noindent
+Use mathematical induction to show that when $n\ge 2$ is an exact power of $2$,
+the solution of the recurrence $T(n)=2T(n/2)+n$ is $T(n)=n\lg n$.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} The recursion tree has $\lg n+1$ levels with total work $n$
+per internal level; summing gives $n\lg n$ plus linear leaves.\\
+
+\noindent
+\textbf{Rigorous (induction):} Let $n=2^m$, $m\ge1$. Claim: $T(2^m)=2^m m$.
+\emph{Base $m=1$ ($n=2$):} $T(2)=2T(1)+2$. With $T(1)=0$ (or any constant),
+$T(2)=2$, which equals $2^1\cdot1$.\\
+\emph{Step:} Assume $T(2^{m-1})=2^{m-1}(m-1)$. Then
+\[
+T(2^m)=2T(2^{m-1})+2^m
+=2\cdot 2^{m-1}(m-1)+2^m
+=2^m(m-1)+2^m
+=2^m m.
+\]
+Thus $T(n)=n\lg n$ for $n=2^m$.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2.3-5}\\
+\noindent
+Think of insertion sort as a recursive algorithm. To sort $A[1:n]$, recursively
+sort $A[1:n-1]$ and then insert $A[n]$. Write pseudocode for this recursive
+version. Give a recurrence for its worst-case running time.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} Sort the first $n\!-\!1$ items, then bubble the last item left
+until it lands in place.\\
+
+\noindent
+\textbf{Rigorous (pseudocode \& cost):}
+\begin{verbatim}
+REC-INSERTION-SORT(A, n)
+1  if n <= 1: return
+2  REC-INSERTION-SORT(A, n-1)
+3  key = A[n]; i = n-1
+4  while i >= 1 and A[i] > key
+5      A[i+1] = A[i]; i = i-1
+6  A[i+1] = key
+\end{verbatim}
+In the worst case, line 4 shifts through the entire sorted prefix, costing
+$\Theta(n)$ after a recursive call on $n-1$ elements. Hence
+\[
+T(n)=T(n-1)+\Theta(n)=\Theta(n^2).
+\]
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2.3-6}\\
+\noindent
+Referring to the searching problem, write pseudocode (iterative or recursive)
+for binary search. Argue that the worst-case running time is $\Theta(\lg n)$.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} Repeatedly compare to the midpoint and discard half the
+remaining range each time.\\
+
+\noindent
+\textbf{Rigorous (iterative binary search):}
+\begin{verbatim}
+BINARY-SEARCH(A, n, x)
+1  lo = 1; hi = n
+2  while lo <= hi
+3      mid = floor((lo + hi)/2)
+4      if A[mid] == x: return mid
+5      else if A[mid] < x: lo = mid + 1
+6      else: hi = mid - 1
+7  return NIL
+\end{verbatim}
+Each iteration halves the interval length, so after $t$ iterations the size is
+$\le n/2^t$. The loop stops after $t=\lceil\lg n\rceil$ iterations, giving
+worst-case time $\Theta(\lg n)$.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2.3-7}\\
+\noindent
+What if insertion sort used a binary search (see 2.3-6) instead of a linear
+search to find where to insert? Would the overall worst-case running time
+improve to $\Theta(n\lg n)$?
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} Finding the insertion spot can be $O(\lg n)$, but you still
+have to \emph{move} elements to make space, which costs $O(n)$ per pass.\\
+
+\noindent
+\textbf{Rigorous:} At outer iteration $j$, binary search locates the position in
+$O(\lg j)$ time, but shifting the larger elements right costs $\Theta(j)$ in the
+worst case. Summing $\Theta(j)$ over $j=1..n$ gives $\Theta(n^2)$, so the
+asymptotic worst-case running time does \emph{not} improve.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2.3-8}\\
+\noindent
+Describe an algorithm that, given a set $S$ of $n$ integers and another integer $x$,
+determines whether $S$ contains two elements that sum to exactly $x$. Your algorithm
+should take $\Theta(n\lg n)$ time in the worst case.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{Intuition:} Sort the numbers, then use two pointers that squeeze
+toward the middle: too small $\to$ move left pointer right; too large $\to$
+move right pointer left.\\
+
+\noindent
+\textbf{Rigorous (algorithm \& analysis):}
+\begin{enumerate}
+\item Sort $S$ in $\Theta(n\lg n)$ time to get $a_1\le \cdots \le a_n$.
+\item Set $i=1$, $j=n$. While $i<j$:
+  \begin{itemize}
+    \item If $a_i+a_j=x$, return \textsc{true}.
+    \item If $a_i+a_j<x$, set $i\gets i+1$.
+    \item Else ($a_i+a_j>x$), set $j\gets j-1$.
+  \end{itemize}
+\item If the loop finishes, return \textsc{false}.
+\end{enumerate}
+The two-pointer sweep performs at most $n-1$ pointer moves, i.e.\ $O(n)$
+work after sorting. Total worst-case time is $\Theta(n\lg n)$.
+\end{proof}
+
+\dotfill
+\newpage
+
+\subsection*{Chpt 2 Problems}
+
+% === Chapter 2, Problems with Solutions ===
+
+\begin{exercise}
+\noindent
+\textbf{2-1 Insertion sort on small arrays in merge sort}\\
+\noindent
+Consider the hybrid: split the input into $n/k$ sublists of length $k$, sort each sublist by
+\textsc{Insertion-Sort}, then merge using the standard merging mechanism.
+\begin{enumerate}\itemsep0.25em
+\item[(a)] Show that sorting the $n/k$ sublists takes $\Theta(nk)$ time.
+\item[(b)] Show that merging them takes $\Theta\!\big(n\lg (n/k)\big)$ time.
+\item[(c)] Given total $\Theta\!\big(nk+n\lg (n/k)\big)$, find the largest $k=k(n)$ such that the hybrid matches merge sort’s $\Theta(n\lg n)$.
+\item[(d)] How should $k$ be chosen in practice?
+\end{enumerate}
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{(a) Intuition:} Each small array of length $k$ costs $\Theta(k^2)$ with insertion sort. There are $n/k$ of them.\\
+\textbf{Rigorous:} $(n/k)\cdot\Theta(k^2)=\Theta(nk)$.
+
+\smallskip
+\noindent
+\textbf{(b) Intuition:} Merge in rounds; each round scans all $n$ items, and there are $\lg(n/k)$ rounds.\\
+\textbf{Rigorous:} A pairwise tournament of $n/k$ runs has height $\lceil\lg(n/k)\rceil$; each level’s total
+merge work is $\Theta(n)$. Hence $\Theta\!\big(n\lg(n/k)\big)$.
+
+\smallskip
+\noindent
+\textbf{(c) Intuition:} Keep the total on the order of $n\lg n$. The $nk$ term must not dominate.\\
+\textbf{Rigorous:} We need $nk=O(n\lg n)$, i.e.\ $k=O(\lg n)$. Taking $k=\Theta(\lg n)$ yields
+\[
+nk+n\lg(n/k)=\Theta\big(n\lg n\big)+\Theta\!\big(n(\lg n-\lg\lg n)\big)=\Theta(n\lg n).
+\]
+Thus the largest asymptotically valid choice is $k=\Theta(\lg n)$.
+
+\smallskip
+\noindent
+\textbf{(d) Practice:} Choose $k$ empirically to exploit caches/branch prediction; small constants like
+$k\in[16,64]$ are common on modern hardware. Benchmark on target inputs and fix $k$ near the observed crossover.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2-2 Correctness of bubblesort}\\
+\noindent
+\textsc{BUBBLESORT}:
+\begin{verbatim}
+BUBBLESORT(A, n)
+1  for i = 1 to n-1
+2      for j = n downto i+1
+3          if A[j] < A[j-1]
+4              exchange A[j] with A[j-1]
+\end{verbatim}
+\begin{enumerate}\itemsep0.25em
+\item[(a)] Besides $A'$ being sorted, what else must be shown to prove correctness?
+\item[(b)] Give and prove a loop invariant for lines 2–4.
+\item[(c)] Using (b), state a loop invariant for lines 1–4 that proves the algorithm sorts.
+\item[(d)] What is the worst-case running time? Compare to \textsc{Insertion-Sort}.
+\end{enumerate}
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{(a)} That $A'$ is a \emph{permutation} of the input $A$ (no elements lost/duplicated). Swaps preserve the multiset.
+
+\smallskip
+\noindent
+\textbf{(b) Inner-loop invariant (fixed $i$):}
+At the start of each iteration with index $j$ ($i+1\le j\le n$), the suffix $A[j+1..n]$
+contains the $(n-j)$ \emph{largest} elements of $A[i..n]$ in nondecreasing order.
+\emph{Initialization:} Before the first inner iteration ($j=n$), the suffix is empty—trivially true.
+\emph{Maintenance:} Comparing $A[j-1]$ and $A[j]$ and swapping if out of order
+ensures that after the iteration, the larger of the two resides in $A[j]$, keeping the
+largest elements packed at the right in order; decrementing $j$ preserves the claim.
+\emph{Termination:} When $j=i+1$, the suffix $A[i+2..n]$ holds the $(n-i-1)$ largest
+elements of $A[i..n]$; thus $A[i+1]$ is at least as large as any element to its right,
+and the minimum of $A[i..n]$ must be at $A[i]$ after one more comparison/swap step.
+Equivalently, by the usual bubble variant, after completing lines 2–4, $A[i]$ is the
+$i$-th smallest element.
+
+\smallskip
+\noindent
+\textbf{(c) Outer-loop invariant:}
+At the start of iteration $i$ of lines 1–4, the prefix $A[1..i-1]$ contains the $(i-1)$
+smallest elements in nondecreasing order. By (b), the inner pass places the next
+smallest at $A[i]$, preserving the invariant. When $i=n$, the whole array is sorted.
+
+\smallskip
+\noindent
+\textbf{(d) Time:} The inner loop performs $\sum_{i=1}^{n-1}(n-i)=\Theta(n^2)$ comparisons;
+in the worst case, a constant fraction cause swaps, so time is $\Theta(n^2)$. \textsc{Insertion-Sort}
+also has $\Theta(n^2)$ worst-case time, though it typically performs fewer moves and is faster in practice.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2-3 Correctness of Horner’s rule}\\
+\noindent
+Evaluate $P(x)=\sum_{i=0}^{n} a_i x^{i}$ using \textsc{HORNER}:
+\begin{verbatim}
+HORNER(A, n, x)
+1  p = 0
+2  for i = n downto 0
+3      p = A[i] + x * p
+4  return p
+\end{verbatim}
+(a) Give the running time. (b) Write naive pseudocode and compare runtimes.
+(c) Prove Horner’s correctness via a loop invariant.
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{(a) Time.} The loop executes $n+1$ iterations; each does $O(1)$ work, so $\Theta(n)$.
+
+\smallskip
+\noindent
+\textbf{(b) Naive evaluation.}
+\begin{verbatim}
+NAIVE-POLY(A, n, x)
+1  p = 0
+2  for i = 0 to n
+3      pow = 1
+4      for t = 1 to i
+5          pow = pow * x
+6      p = p + A[i] * pow
+7  return p
+\end{verbatim}
+The inner power loop costs $\Theta(i)$; summing gives $\sum_{i=0}^{n}\Theta(i)=\Theta(n^2)$.
+Thus Horner’s $\Theta(n)$ is asymptotically faster.
+
+\smallskip
+\noindent
+\textbf{(c) Correctness (loop invariant).}
+At the start of each iteration with index $i$ ($n\ge i\ge -1$),
+\[
+p \;=\; \sum_{k=0}^{n-i-1} a_{i+1+k}\,x^{k}.
+\]
+\emph{Initialization ($i=n$):} The sum is empty, so $p=0$ matches line 1.\\
+\emph{Maintenance:} Update $p\gets a_i+x\,p$ transforms
+\[
+p \;=\; a_i + x\sum_{k=0}^{n-i-1} a_{i+1+k}x^{k}
+      \;=\; \sum_{k=0}^{n-i} a_{i+k}x^{k},
+\]
+which is the invariant with $i\gets i-1$.\\
+\emph{Termination ($i=-1$):} We obtain $p=\sum_{k=0}^{n} a_{0+k}x^{k}=P(x)$, as required.
+\end{proof}
+
+\newpage
+
+\begin{exercise}
+\noindent
+\textbf{2-4 Inversions}\\
+\noindent
+Let $A[1:n]$ contain $n$ distinct numbers. If $i<j$ and $A[i]>A[j]$, then $(i,j)$ is an inversion.
+\begin{enumerate}\itemsep0.25em
+\item[(a)] List the five inversions of $\langle 2,3,8,6,1\rangle$.
+\item[(b)] Which array on $\{1,\dots,n\}$ has the most inversions? How many?
+\item[(c)] Relate \textsc{Insertion-Sort}’s running time to the number of inversions.
+\item[(d)] Give a $\Theta(n\lg n)$ algorithm to count inversions.
+\end{enumerate}
+\end{exercise}
+
+\vspace{1pt}
+
+\begin{proof}
+Solution.\\
+
+\noindent
+\textbf{(a)} Inversions: $(1,5),(2,5),(3,4),(3,5),(4,5)$.
+
+\smallskip
+\noindent
+\textbf{(b)} The reverse-sorted array $\langle n,n-1,\dots,1\rangle$ maximizes inversions:
+each pair $(i,j)$ with $i<j$ is inverted, giving $\binom{n}{2}=n(n-1)/2$.
+
+\smallskip
+\noindent
+\textbf{(c)} In \textsc{Insertion-Sort}, each swap of adjacent out-of-order elements reduces the inversion count by 1.
+Hence the number of element moves (and thus time beyond scanning) is $\Theta(\text{\# inversions})$.
+Total running time is $\Theta(n+\text{\# inversions})$, which is $\Theta(n^2)$ in the worst case.
+
+\smallskip
+\noindent
+\textbf{(d) Counting in $\Theta(n\lg n)$.}
+Modify merge sort: while merging two sorted halves $L$ and $R$, whenever an element
+from $R$ is copied before an element from $L$, it contributes $|L_{\text{remaining}}|$ inversions.
+Summing these counts over $O(\lg n)$ merge levels yields total time $\Theta(n\lg n)$ and the exact number of inversions.
+\end{proof}
+
+\end{document}
